@@ -78,7 +78,7 @@ def render_camera_view_png(
     fov_deg: float = 60.0,
     img_w: int = 800,
     img_h: int = 450,
-) -> Path:
+) -> tuple[Path, tuple[float, float, float, float] | None]:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(8, 4.5))
     ax.set_facecolor("#cbd5e1")
@@ -119,11 +119,13 @@ def render_camera_view_png(
     projected = [project_point(*c) for c in corners_3d]
     projected = [p for p in projected if p is not None]
 
+    bbox_px: tuple[float, float, float, float] | None = None
     if projected:
         us, vs = zip(*projected)
         u0, u1 = max(0.0, min(us)), min(float(img_w), max(us))
         v0, v1 = max(0.0, min(vs)), min(float(img_h), max(vs))
         if u1 > u0 and v1 > v0:
+            bbox_px = (float(u0), float(v0), float(u1), float(v1))
             ax.add_patch(
                 Rectangle((u0, v0), u1 - u0, v1 - v0, fill=False, edgecolor="#ef4444", lw=2.0)
             )
@@ -145,4 +147,4 @@ def render_camera_view_png(
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)
-    return out_path
+    return out_path, bbox_px
