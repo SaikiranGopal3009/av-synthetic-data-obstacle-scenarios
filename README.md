@@ -4,6 +4,7 @@ Map-grounded synthetic data generation pipeline for AV obstacle scenarios.
 ## Project Description
 This repository implements an end-to-end prototype for generating validated synthetic perception data generation simulating road obstacles. 
 Instead of placing assets in arbitrary world coordinates, scenarios are authored in lane-relative Frenet coordinates `(lane_index, s, d)`, converted into 3D world poses, written to OpenUSD (`.usda`) stages with custom `sdg:*` semantic attributes, projected into 2D camera bounding boxes via a pinhole camera model, checked against geometric/label sanity rules, and exported in seeded batches with GIF previews.
+The camera in this pipeline is modeled as an ego vehicle camera (`camera_role: ego_vehicle`, `/World/EgoVehicle/EgoCamera` in OpenUSD stages) observing road obstacles downrange (`s`) and laterally (`d`), with ego camera labels in rendered views and sweep manifests.
 
 ## Problem Statement
 Synthetic datasets used in simulation for training and evaluation of autonomous driving perception stack often break in silent ways: 
@@ -25,6 +26,8 @@ src/
   renderer.py          # top-down PNG and pinhole camera 2D bbox PNG
   validator.py         # geometry, camera, and 2D bounding-box checks
   sweep.py             # seeded batch runner, manifest.json, and GIF export
+outputs/
+  samples/             # generated .usda, camera/top-down PNGs, sweep GIFs, and manifest.json
 tests/
   test_smoke.py        # end-to-end smoke tests
 ```
@@ -50,7 +53,17 @@ Run a seeded multi-sample sweep:
 ```
 python -m src.cli --config configs/workzone_demo.yaml --num-samples 8 --seed 42
 ```
-Generates `N` validated samples along with `manifest.json`, `sweep_camera.gif`, and `sweep_top_down.gif`.
+Generates `N` validated samples along with `manifest.json` (recording `camera_role: ego_vehicle`), `sweep_camera.gif`, and `sweep_top_down.gif`.
+
+## Sample Outputs
+
+Single-sample ego vehicle camera and top-down views:
+![Ego Vehicle Camera View](docs/assets/camera_sample.png)
+![Top-Down Layout](docs/assets/top_down_sample.png)
+
+Multi-sample sweep animations:
+![Ego Vehicle Camera Sweep](docs/assets/sweep_camera.gif)
+![Top-Down Sweep GIF](docs/assets/sweep_top_down.gif)
 
 ## Tests
 ```
