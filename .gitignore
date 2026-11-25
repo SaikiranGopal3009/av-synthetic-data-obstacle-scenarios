@@ -1,0 +1,27 @@
+# Python & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# macOS & editors
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Environment / secrets
+.env
+
+# Large or noisy outputs (keep small curated README visuals in outputs/samples/)
+outputs/batch/
+outputs/*.mp4
+*.usd
