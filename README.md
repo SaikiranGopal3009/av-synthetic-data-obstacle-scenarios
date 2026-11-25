@@ -1,5 +1,5 @@
 # av-synthetic-data-obstacle-scenarios
-Map-grounded synthetic data generation pipeline for AV obstacle perception.
+Map-grounded synthetic data generation pipeline for AV obstacle scenarios.
 
 ## Project Description
 This repository implements an end-to-end prototype for generating validated synthetic perception data generation simulating road obstacles. 
