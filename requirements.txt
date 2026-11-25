@@ -1,0 +1,11 @@
+ImageIO==2.38.2
+matplotlib==3.11.2
+numpy==2.5.5
+pillow==13.0.0
+PyYAML==6.0.4
+torch==2.2.2
+torchvision==0.17.2
+ultralytics==8.4.218
+ultralytics-platform==0.1.121
+ultralytics-thop==2.2.5
+usd-core==26.11
