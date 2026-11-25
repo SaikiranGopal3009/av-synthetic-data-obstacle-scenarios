@@ -12,11 +12,20 @@ obstacle:
   width_m: 1.8
   height_m: 1.5
 camera:
+  role: "ego_vehicle"
   x: 0.0
   y: -1.8
   z: 1.5
   fov_deg: 60.0
   img_width: 800
   img_height: 450
+ego:
+  vehicle_id: ego_vehicle
+  camera:
+    name: ego_front_camera
+    frame: ego_vehicle
+    role: "ego_vehicle"
+    position_m: [0.0, 1.8, 1.5]
+    fov_deg: 60.0
 output:
   dir: "outputs/samples"

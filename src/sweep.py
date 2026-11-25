@@ -70,6 +70,8 @@ def run_sweep(
             obstacle_dims_lwh=obs_lwh,
             lane_index=lane_idx,
             s_distance_m=s_m,
+            ego_camera_xyz=cam_xyz,
+            ego_fov_deg=fov_deg,
         )
         top_png = render_top_down_png(
             out_path=out_dir / f"top_down_{tag}.png",
@@ -132,6 +134,7 @@ def run_sweep(
 
     manifest = {
         "seed": seed,
+        "camera_role": "ego_vehicle",
         "num_samples": num_samples,
         "camera_gif": str(cam_gif),
         "top_down_gif": str(top_gif),

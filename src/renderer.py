@@ -14,6 +14,7 @@ def render_top_down_png(
     obs_length: float,
     obs_width: float,
     cam_xy: tuple[float, float],
+    ego_label: str = "Ego Vehicle Camera",
 ) -> Path:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(6, 8))
@@ -49,8 +50,8 @@ def render_top_down_png(
         )
     )
 
-    # Plot camera position on the map
-    ax.scatter([cam_xy[0]], [cam_xy[1]], c="#2563eb", s=80, zorder=5, label="Camera")
+    # Plot ego-mounted camera position on the map
+    ax.scatter([cam_xy[0]], [cam_xy[1]], c="#2563eb", s=80, zorder=5, label=ego_label)
 
     ax.set_xlim(-2.0, road.total_width_m() + 2.0)
     ax.set_ylim(min(-4.0, cam_xy[1] - 2.0), road.length_m + 2.0)
@@ -78,6 +79,7 @@ def render_camera_view_png(
     fov_deg: float = 60.0,
     img_w: int = 800,
     img_h: int = 450,
+    ego_label: str = "Ego Vehicle Camera",
 ) -> tuple[Path, tuple[float, float, float, float] | None]:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(8, 4.5))
@@ -143,7 +145,7 @@ def render_camera_view_png(
     ax.set_ylim(img_h, 0)
     ax.set_xlabel("u (px)")
     ax.set_ylabel("v (px)")
-    ax.set_title("Camera Projection + Ground-Truth 2D Box")
+    ax.set_title(f"{ego_label} — Projection + Ground-Truth 2D Box")
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)

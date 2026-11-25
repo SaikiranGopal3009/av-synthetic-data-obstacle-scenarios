@@ -51,6 +51,7 @@ def main() -> None:
             num_samples=args.num_samples,
             seed=args.seed,
         )
+        print(f"Camera role:      {manifest.get('camera_role', 'ego_vehicle')}")
         print(f"Wrote camera GIF:   {manifest['camera_gif']}")
         print(f"Wrote top-down GIF: {manifest['top_down_gif']}")
         print(f"Wrote manifest:     {out_dir / 'manifest.json'}")
@@ -66,6 +67,8 @@ def main() -> None:
         obstacle_dims_lwh=obs_lwh,
         lane_index=lane_idx,
         s_distance_m=s_m,
+        ego_camera_xyz=cam_xyz,
+        ego_fov_deg=fov_deg,
     )
     top_png = render_top_down_png(
         out_path=out_dir / "top_down_000.png",
@@ -111,6 +114,7 @@ def main() -> None:
             print(f"ERROR: {err}")
         raise ValueError("Scenario validation failed.")
 
+    print("Camera role:      ego_vehicle")
     print(f"Wrote USD:        {usda_path}")
     print(f"Wrote top-down:   {top_png}")
     print(f"Wrote camera PNG: {cam_png}")

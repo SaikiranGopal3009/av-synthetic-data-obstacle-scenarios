@@ -1,4 +1,5 @@
 from pathlib import Path
+from pxr import Usd
 from src.map_loader import RoadSpec
 from src.renderer import render_camera_view_png, render_top_down_png
 from src.sweep import run_sweep
@@ -21,6 +22,8 @@ def test_single_sample_end_to_end(tmp_path: Path) -> None:
         obstacle_dims_lwh=obs_lwh,
         lane_index=0,
         s_distance_m=28.0,
+        ego_camera_xyz=cam_xyz,
+        ego_fov_deg=60.0,
     )
     top_png = render_top_down_png(
         out_path=tmp_path / "top_down_000.png",
@@ -60,7 +63,12 @@ def test_single_sample_end_to_end(tmp_path: Path) -> None:
         bbox_px=bbox_px,
     )
 
+    stage = Usd.Stage.Open(str(usda_path))
+    ego_cam = stage.GetPrimAtPath("/World/EgoVehicle/EgoCamera")
+
     assert usda_path.exists()
+    assert ego_cam.IsValid()
+    assert ego_cam.GetAttribute("sdg:sensorRole").Get() == "ego_camera"
     assert top_png.exists()
     assert cam_png.exists()
     assert bbox_px is not None
@@ -103,6 +111,7 @@ def test_sweep_creates_gifs_and_manifest(tmp_path: Path) -> None:
         num_samples=3,
         seed=42,
     )
+    assert manifest.get("camera_role") == "ego_vehicle"
     assert Path(manifest["camera_gif"]).exists()
     assert Path(manifest["top_down_gif"]).exists()
     assert (tmp_path / "sweep" / "manifest.json").exists()
