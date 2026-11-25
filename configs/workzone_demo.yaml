@@ -1,0 +1,22 @@
+seed: 42
+road:
+  length_m: 80.0
+  num_lanes: 2
+  lane_width_m: 3.6
+obstacle:
+  kind: "stalled_vehicle"
+  lane_index: 0 # 0 = first lane, 1 = second lane
+  s_distance_m: 28.0 # distance ahead along the lane (m)
+  d_offset_m: 0.0 # lateral offset from lane centerline (m)
+  length_m: 4.2
+  width_m: 1.8
+  height_m: 1.5
+camera:
+  x: 0.0
+  y: -1.8
+  z: 1.5
+  fov_deg: 60.0
+  img_width: 800
+  img_height: 450
+output:
+  dir: "outputs/samples"
